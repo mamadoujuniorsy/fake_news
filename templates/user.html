@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Utilisateur</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <header class="navbar">
+        <!-- Header content -->
+        <a href="/logout" class="logout-link">Déconnexion</a>
+        <a href="{{ url_for('update_account') }}" class="update-link">Modifier Compte</a>
+
+    </header>
+
+    <section class="user-section">
+        <div class="container">
+          <h2>Bienvenue, {{username}}!!!</h2>
+            <form method="POST">
+                <div class="form-group">
+                    <label for="link">Entrez l'info à vérifier :</label>
+                    <textarea type="text" name="link" id="link" rows=15,cols=80 required></textarea>
+                </div>
+                <button type="submit" class="btn">Vérifier</button>
+            </form>
+            {% if result %}
+            <div class="result">
+                <h3>Résultat :</h3>
+                <p>{{ result }}</p>
+            </div>
+            {% endif %}
+        </div> 
+    </section>
+
+    <!-- Le reste du contenu de la page -->
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>

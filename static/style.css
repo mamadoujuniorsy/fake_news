@@ -1,0 +1,290 @@
+/* Global Styles */
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f2f2f2;
+  margin: 0;
+  padding: 0;
+}
+
+.container {
+  max-width: 400px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 5px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  margin-top: 50px;
+}
+.content{
+  max-width: 400px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 5px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  margin-top: 50px;
+}
+.error-message {
+  color: #ff0000;
+  font-size: 14px;
+  margin-top: 5px;
+}
+h2 {
+  text-align: center;
+  margin-bottom: 30px;
+  color: #333;
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+label {
+  display: block;
+  font-weight: bold;
+  margin-bottom: 5px;
+  color: #555;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="password"] {
+  width: 100%;
+  padding: 12px;
+  border-radius: 3px;
+  border: 1px solid #ccc;
+  box-sizing: border-box;
+  font-size: 14px;
+  color: #555;
+}
+
+.btn {
+  display: inline-block;
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: #fff;
+  text-decoration: none;
+  border-radius: 3px;
+  transition: background-color 0.3s;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.btn:hover {
+  background-color: #0056b3;
+}
+
+.login-message {
+  text-align: center;
+  margin-top: 20px;
+  color: #777;
+}
+
+.login-message a {
+  color: #007bff;
+  text-decoration: none;
+}
+
+/* Additional Styling for Signup Page */
+#firstname,
+#lastname {
+  text-transform: capitalize;
+}
+
+/* Ajoutez ces styles pour la section hero */
+.hero {
+  background-image: url('/static/hero-bg.jpg');
+  background-size: cover;
+  background-position: center;
+  padding: 150px 0;
+  text-align: center;
+  color: #fff;
+}
+
+nav ul li{
+  display: inline-block;
+  list-style-type: none;
+  margin: 20px;
+  margin-left: 200px;
+  background-color: #007bff;
+  padding: 12px 30px;
+  border-radius: 30px;
+  font-weight: bold;
+  font-size: 15px;
+}
+nav ul li a{
+  text-decoration: none;
+  color: white;
+  font-size: 1.5rem;
+}
+
+.hero-content {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.hero h1 {
+  font-size: 40px;
+  margin-bottom: 30px;
+  color: black;
+}
+
+.hero p {
+  font-size: 18px;
+  margin-bottom: 40px;
+  color: black;
+}
+
+.hero .btn {
+  display: inline-block;
+  padding: 15px 30px;
+  background-color: #007bff;
+  color: #fff;
+  text-decoration: none;
+  padding: 12px 30px;
+  border-radius: 30px;
+  font-weight: bold;
+  font-size: 15px;
+  transition: background-color 0.3s;
+}
+
+.hero .btn:hover {
+  background-color: #0056b3;
+}
+
+/* Ajoutez ces styles pour la section features */
+.features {
+  background-color: #f2f2f2;
+  padding: 80px 0;
+  text-align: center;
+}
+
+.features h2 {
+  font-size: 30px;
+  margin-bottom: 40px;
+}
+
+.feature-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  margin-bottom: 40px;
+  background-color: #fff;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  border-radius: 5px;
+}
+
+.feature-card img {
+  width: 80px;
+  margin-bottom: 20px;
+}
+
+.feature-card h3 {
+  font-size: 24px;
+  margin-bottom: 10px;
+}
+
+.feature-card p {
+  font-size: 16px;
+}
+
+/* Ajoutez ces styles pour le pied de page */
+footer {
+  background-color: #333;
+  color: #fff;
+  padding: 20px 0;
+  text-align: center;
+}
+
+footer p {
+  font-size: 14px;
+}
+/* Navbar */
+.navbar {
+  display: flex;
+  background-color: #007bff;;
+  color: #fff;
+  padding: 30px;
+  text-align: center;
+  justify-content: space-between;
+}
+.navbar .logout-link{
+  color: #fff;
+  font-size: 1.8rem;
+}
+.navbar .update-link{
+  color: #fff;
+  font-size: 1.8rem;
+}
+.navbar h1 {
+  margin: 0;
+}
+a{
+  text-decoration: none;
+}
+/* User section */
+.user-section {
+  text-align: center;
+  background-color: #f2f2f2;
+  padding: 20px;
+  margin-top: 100px;
+}
+
+.user-section .container {
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.user-section h2 {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.user-section form {
+  margin-bottom: 20px;
+}
+
+.user-section .form-group label {
+  display: block;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.user-section .form-group input[type="text"] {
+  width: 100%;
+  padding: 10px;
+  border-radius: 3px;
+  border: 1px solid #ccc;
+  box-sizing: border-box;
+}
+
+.user-section .btn {
+  display: inline-block;
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: #fff;
+  text-decoration: none;
+  border-radius: 3px;
+  transition: background-color 0.3s;
+}
+
+.user-section .btn:hover {
+  background-color: #0056b3;
+}
+
+.user-section .result {
+  margin-top: 20px;
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 5px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.user-section .result h3 {
+  margin-top: 0;
+}
+h3{
+color: black;
+}
+

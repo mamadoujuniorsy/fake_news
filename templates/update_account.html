@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Modifier Compte</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <header class="navbar">
+
+    </header>
+
+    <section class="user-section">
+        <div class="container">
+            <h2>Modifier Compte</h2>
+            <form method="POST" action="{{ url_for('update_account') }}">
+                <div class="form-group">
+                    <label for="firstname">Prénom :</label>
+                    <input type="text" name="firstname" id="firstname" value="{{ current_user.firstname }}" required>
+                </div>
+                <div class="form-group">
+                    <label for="lastname">Nom :</label>
+                    <input type="text" name="lastname" id="lastname" value="{{ current_user.lastname }}" required>
+                </div>
+                <div class="form-group">
+                    <label for="email">Adresse Email :</label>
+                    <input type="email" name="email" id="email" value="{{ current_user.email }}" required>
+                </div>
+                <div class="form-group">
+                    <label for="password">Nouveau Mot de passe :</label>
+                    <input type="password" name="password" id="password" required>
+                </div>
+                <button type="submit" class="btn">Enregistrer</button>
+            </form>
+        </div>
+    </section>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>

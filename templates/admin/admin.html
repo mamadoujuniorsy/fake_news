@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Page d'administration</title>
+    <style>
+        /* Ajoutez votre CSS personnalisé ici */
+        body {
+            font-family: Arial, sans-serif;
+        }
+
+        h1 {
+            color: #333;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            padding: 10px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #f2f2f2;
+            color: #333;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 8px 12px;
+            background-color: #333;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 4px;
+        }
+
+        .btn:hover {
+            background-color: #555;
+        }
+    </style>
+</head>
+<body>
+    <h1>Gestion des utilisateurs</h1>
+
+    <table>
+        <tr>
+            <th>ID</th>
+            <th>Prénom</th>
+            <th>Nom</th>
+            <th>Email</th>
+            <th>Actions</th>
+        </tr>
+        {% for user in users %}
+        <tr>
+            <td>{{ user.id }}</td>
+            <td>{{ user.firstname }}</td>
+            <td>{{ user.lastname }}</td>
+            <td>{{ user.email }}</td>
+            <td>
+                <a href="/admin/edit/{{ user.id }}" class="btn">Modifier</a>
+                <a href="/admin/delete/{{ user.id }}" class="btn">Supprimer</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+
+    <a href="/admin/create" class="btn">Créer un nouvel utilisateur</a>
+    <a href="/logout" class="btn">Déconnexion</a>
+</body>
+</html>
