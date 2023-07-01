@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Résultat de la vérification</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="result-container">
+        <h1>Résultat de la vérification</h1>
+        <div class="result">
+            {% if result == 'fake' %}
+                <h2>Cette information est fausse.</h2>
+                <p>Nous avons détecté que cette information est probablement fausse ou trompeuse. Veuillez prendre cela en compte et ne pas la diffuser.</p>
+            {% elif result == 'real' %}
+                <h2>Cette information est vraie.</h2>
+                <p>Nous avons vérifié cette information et elle semble être authentique. Vous pouvez la partager en toute confiance.</p>
+            {% else %}
+                <h2>Erreur de vérification.</h2>
+                <p>Une erreur s'est produite lors de la vérification de cette information. Veuillez réessayer ultérieurement.</p>
+            {% endif %}
+        </div>
+        <div class="suggestion">
+            <h3>Souhaitez-vous soumettre cette information pour une étude plus approfondie ?</h3>
+            <form action="/submit" method="post">
+                <input type="hidden" name="link" value="{{ link }}">
+                <input type="hidden" name="result" value="{{ result }}">
+                <button type="submit" class="btn-result btn-yes">Oui</button>
+            </form>
+            <a href="/user" class="btn-result btn-no">Non, retourner à la page d'utilisateur</a>
+        </div>
+    </div>
+</body>
+</html>

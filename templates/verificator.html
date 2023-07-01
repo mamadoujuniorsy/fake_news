@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Page du vérificateur</title>
+    <style>
+      body {
+          font-family: Arial, sans-serif;
+      }
+
+      h1 {
+          color: #333;
+      }
+
+      table {
+          width: 100%;
+          border-collapse: collapse;
+      }
+
+      th, td {
+          padding: 10px;
+          text-align: left;
+          border-bottom: 1px solid #ddd;
+      }
+
+      th {
+          background-color: #f2f2f2;
+          color: #333;
+      }
+    h1{
+      text-align: center;
+    }  
+    </style>
+</head>
+<body>
+    <h1>Page du vérificateur</h1>
+    <table>
+        <!-- ... -->
+<tr>
+    <th>Date</th>
+    <th>Utilisateur</th>
+    <th>Information</th>
+    <th>Résultat</th>
+    <th>Actions</th>
+    <th>Supprimer</th>
+</tr>
+
+{% for information in informations %}
+    <tr>
+        <td>{{ information.created_at }}</td>
+        <td>{{ users }}</td>
+        <td>{{ information.link }}</td>
+        <td>{{ information.result }}</td>
+        <td>
+            <form action="{{ url_for('submit_verificator_result') }}" method="post">
+                <input type="hidden" name="information_id" value="{{ information.id }}">
+                <input type="text" name="additional_test" placeholder="Test supplémentaire">
+                <button type="submit">Envoyer le résultat à l'utilisateur</button>
+            </form>
+        </td>
+        <td>
+            <form action="{{ url_for('delete_information') }}" method="post"> <!-- Nouveau formulaire pour la suppression -->
+                <input type="hidden" name="information_id" value="{{ information.id }}">
+                <button type="submit">Supprimer</button>
+            </form>
+        </td>
+    </tr>
+{% endfor %}
+<!-- ... -->
+
+    </table>
+</body>
+</html>

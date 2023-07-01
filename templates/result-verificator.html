@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Résultats des vérifications</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+
+        h1 {
+            color: #333;
+            text-align: center;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            padding: 10px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #f2f2f2;
+            color: #333;
+        }
+
+        .delete-input {
+            background-color: red;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            cursor: pointer;
+        }
+
+        .delete-input:hover {
+            background-color: darkred;
+        }
+    </style>
+</head>
+<body>
+    <h1>Résultats des vérifications</h1>
+    <table>
+        <tr>
+            <th>Date</th>
+            <th>Information</th>
+            <th>Résultat</th>
+            <th>Statut</th>
+            <th>Actions</th>
+        </tr>
+
+        {% for information in informations %}
+            <tr>
+                <td>{{ information.created_at }}</td>
+                <td>{{ information.link }}</td>
+                <td>{{ information.result }}</td>
+                <td>{{information.status}}</td>
+                <td>
+                  <form method="post" action="">
+                    <input type="hidden" name="information_id" value="{{ information.id }}">
+                    {% if information.status == 'En attente' %}
+                        <input class="delete-btn" type="submit" value="Supprimer">
+                    {% else %}
+                        <input class="delete-btn" type="submit" value="Supprimer">
+                    {% endif %}
+                </form>
+                
+                </td>
+            </tr>
+        {% endfor %}
+    </table>
+
+   
+</body>
+</html>

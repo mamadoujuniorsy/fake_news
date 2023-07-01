@@ -86,9 +86,9 @@ def predict_fake_news(article_text, threshold=80):
     
     # Vérification du seuil
     if fake_percentage >= threshold:
-        message = "L'article est très probablement un fake news."
+        message = "fake"
     else:
-        message = "L'article semble être authentique."
+        message = "real"
     
     return message    
 # Exemple d'utilisation

@@ -1,11 +1,10 @@
-from flask import Flask, render_template, request, redirect, session, flash,url_for
+from flask import Flask, render_template, request, redirect, session, flash, url_for
 from flask_mysqldb import MySQL
 from werkzeug.security import generate_password_hash, check_password_hash
 from wtforms import Form, StringField, PasswordField, validators
 from flask_login import LoginManager, current_user, UserMixin, login_user, logout_user, login_required
 from models.model import predict_fake_news
 import re
-
 
 app = Flask(__name__, static_url_path='/static')
 
@@ -17,17 +16,17 @@ app.config['MYSQL_DB'] = 'fake_news'
 app.config['MYSQL_CURSORCLASS'] = 'DictCursor'
 
 mysql = MySQL(app)
-login_manager = LoginManager(app)
-
+login_manager = LoginManager(app)   
 # Définir une classe User personnalisée en utilisant UserMixin de Flask-Login
 class User(UserMixin):
-     def __init__(self, user_id, firstname, lastname,password,email,is_admin):
+    def __init__(self, user_id, firstname, lastname, password, email, is_admin, is_verificator):
         self.id = user_id
         self.firstname = firstname
         self.lastname = lastname
         self.password = password
         self.email = email
         self.is_admin = is_admin
+        self.is_verificator = is_verificator
 
 @login_manager.user_loader
 def load_user(user_id):
@@ -38,10 +37,12 @@ def load_user(user_id):
     cur.close()
 
     if user:
-        user_obj = User(user['id'], user['firstname'], user['lastname'], user['password'], user['email'], user['is_admin'])
+        user_obj = User(user['id'], user['firstname'], user['lastname'], user['password'], user['email'],
+                        user['is_admin'],user['is_verificator'])
         return user_obj
     else:
         return None
+
 
 # Classe du formulaire d'inscription
 class SignupForm(Form):
@@ -53,20 +54,22 @@ class SignupForm(Form):
         validators.Length(min=6)
     ])
 
+
 # Classe du formulaire de connexion
 class LoginForm(Form):
     email = StringField('Adresse Email', [validators.DataRequired(), validators.Email()])
     password = PasswordField('Mot de passe', [validators.DataRequired()])
+
 
 # Page d'accueil / Inscription
 @app.route('/')
 def home():
     return render_template('acceuil.html')
 
+
 @app.route('/static')
 def serve_css():
     return app.send_static_file('style.css')
-
 # Page d'utilisateur
 @app.route('/user', methods=['GET', 'POST'])
 @login_required
@@ -77,7 +80,10 @@ def user():
     if request.method == 'POST':
         link = request.form['link']
         result = predict_fake_news(link)
-    return render_template('user.html', username=username, result=result)
+        return render_template('result.html', username=username, result=result,link=link)
+
+    return render_template('user.html', username=username)
+
 
 # Page de déconnexion
 @app.route('/logout')
@@ -85,6 +91,7 @@ def user():
 def logout():
     logout_user()
     return redirect('/')
+
 
 # Page d'inscription
 @app.route('/signup', methods=['GET', 'POST'])
@@ -115,6 +122,7 @@ def signup():
 
     return render_template('signup.html', form=form)
 
+
 # Page de connexion
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -130,7 +138,8 @@ def login():
 
         if user and check_password_hash(user['password'], password):
             # Les informations d'identification sont correctes, connectez l'utilisateur
-            user_obj = User(user['id'], user['firstname'], user['lastname'], user['password'], user['email'], user['is_admin'])
+            user_obj = User(user['id'], user['firstname'], user['lastname'], user['password'], user['email'],
+                            user['is_admin'],user['is_verificator'])
             login_user(user_obj)
             if user_obj.is_admin:
                 return redirect(url_for('admin'))
@@ -142,6 +151,8 @@ def login():
             return render_template('login.html', form=form, error=error)
 
     return render_template('login.html', form=form)
+
+
 @app.route('/update_account', methods=['GET', 'POST'])
 @login_required
 def update_account():
@@ -170,6 +181,8 @@ def update_account():
         return redirect('/user')
 
     return render_template('update_account.html', form=form)
+
+
 # Page d'administration
 @app.route('/admin')
 @login_required
@@ -185,6 +198,7 @@ def admin():
     else:
         flash('Accès refusé. Vous n\'êtes pas administrateur.', 'error')
         return redirect('/')
+
 
 # Page de modification d'utilisateur
 @app.route('/admin/edit/<int:user_id>', methods=['GET', 'POST'])
@@ -218,7 +232,7 @@ def edit_user(user_id):
 
                 flash('Utilisateur mis à jour avec succès.', 'success')
                 return redirect('/admin')
-            
+
             return render_template('admin/edit_user.html', form=form, user_id=user_id)
         else:
             flash('Utilisateur non trouvé.', 'error')
@@ -226,6 +240,7 @@ def edit_user(user_id):
     else:
         flash('Accès refusé. Vous n\'êtes pas administrateur.', 'error')
         return redirect('/')
+
 
 # Page de suppression d'utilisateur
 @app.route('/admin/delete/<int:user_id>')
@@ -243,6 +258,7 @@ def delete_user(user_id):
     else:
         flash('Accès refusé. Vous n\'êtes pas administrateur.', 'error')
         return redirect('/')
+
 
 # Page de création d'utilisateur
 @app.route('/admin/create', methods=['GET', 'POST'])
@@ -272,6 +288,111 @@ def create_user():
         flash('Accès refusé. Vous n\'êtes pas administrateur.', 'error')
         return redirect('/')
 
+
+# Page de résultats
+@app.route('/result', methods=['GET', 'POST'])
+@login_required
+def result():
+    if request.method == 'POST':
+        link = request.form['link']
+        result = predict_fake_news(link)
+
+        # Stocker le résultat dans la table "information" pour vérification ultérieure
+        cur = mysql.connection.cursor()
+        cur.execute("INSERT INTO information (user_id, link, result) VALUES (%s, %s, %s)",
+                    (current_user.id, link, result))
+        mysql.connection.commit()
+        cur.close()
+
+        return render_template('result.html', result=result)
+
+    return redirect('/user')
+
+# Page de résultats
+@app.route('/submit', methods=['POST'])
+@login_required
+def submit():
+    if request.method == 'POST':
+        link = request.form['link']
+        result = request.form['result']
+
+        # Stocker le résultat dans la table "information" pour vérification ultérieure
+        cur = mysql.connection.cursor()
+        cur.execute("INSERT INTO information (user_id, link, result) VALUES (%s, %s, %s)",
+                    (current_user.id, link, result))
+        mysql.connection.commit()
+        cur.close()
+
+        return render_template('result.html', result=result, link=link)
+
+    return redirect('/user')
+#Page du vérificateur de faits
+@app.route('/verificator')
+@login_required
+def verificator():
+    if current_user.is_verificator:
+        # Récupérer les informations à vérifier depuis la base de données
+        cur = mysql.connection.cursor()
+        cur.execute("SELECT * FROM information order by created_at")
+        informations = cur.fetchall()
+        cur.close()
+        users = current_user.email
+        return render_template('verificator.html', informations=informations,users=users)
+    else:
+        flash('Accès refusé. Vous n\'êtes pas vérificateur.', 'error')
+        return redirect('/user')
+
+@app.route('/verificator/delete', methods=['POST'])
+@login_required
+def delete_information():
+    if current_user.is_verificator:
+        information_id = request.form['information_id']
+
+        # Effectuez les opérations de suppression dans la base de données
+        cur = mysql.connection.cursor()
+        cur.execute("DELETE FROM information WHERE id = %s", (information_id,))
+        mysql.connection.commit()
+        cur.close()
+
+        flash('Information supprimée avec succès.', 'success')
+        return redirect('/verificator')
+    else:
+        flash('Accès refusé. Vous n\'êtes pas vérificateur.', 'error')
+        return redirect('/user')
+
+@app.route('/submit_verificator_result', methods=['POST'])
+def submit_verificator_result():
+    information_id = request.form.get('information_id')
+    additional_test = request.form.get('additional_test')
+    
+    # Retrieve the information from the database
+    cur = mysql.connection.cursor()
+    cur.execute("SELECT * FROM information WHERE id = %s", (information_id,))
+    information = cur.fetchone()
+    cur.close()
+    
+    if information:
+        # Update the information status
+        cur = mysql.connection.cursor()
+        cur.execute("UPDATE information SET status = %s WHERE id = %s", (additional_test, information_id))
+        mysql.connection.commit()
+        cur.close()
+
+        flash('Résultat vérificateur soumis avec succès.', 'success')
+        return redirect('/verificator')
+    else:
+        flash('L\'information n\'a pas été trouvée.', 'error')
+        return redirect('/verificator')
+    
+@app.route('/result-verificator')
+@login_required
+def result_verificator():
+        # Récupérer les informations à vérifier depuis la base de données
+        cur = mysql.connection.cursor()
+        cur.execute("SELECT * FROM information WHERE id = %s", (information_id,))
+        informations = cur.fetchall()
+        cur.close()
+        return render_template('result-verificator.html', informations=informations)
 
 if __name__ == '__main__':
     app.run(debug=True)

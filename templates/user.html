@@ -7,11 +7,11 @@
 <body>
     <header class="navbar">
         <!-- Header content -->
-        <a href="/logout" class="logout-link">Déconnexion</a>
         <a href="{{ url_for('update_account') }}" class="update-link">Modifier Compte</a>
-
+        <a href="{{url_for('verificator')}}"class="verificator">Vérificateurs</a>
+        <a href="{{url_for('result_verificator')}}"class="verificator">Mes résultats</a>
+        <a href="/logout" class="logout-link">Déconnexion</a>
     </header>
-
     <section class="user-section">
         <div class="container">
           <h2>Bienvenue, {{username}}!!!</h2>
@@ -22,17 +22,8 @@
                 </div>
                 <button type="submit" class="btn">Vérifier</button>
             </form>
-            {% if result %}
-            <div class="result">
-                <h3>Résultat :</h3>
-                <p>{{ result }}</p>
-            </div>
-            {% endif %}
-        </div> 
     </section>
-
     <!-- Le reste du contenu de la page -->
-
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="{{ url_for('static', filename='script.js') }}"></script>
 </body>
