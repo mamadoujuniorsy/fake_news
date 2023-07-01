@@ -6,11 +6,10 @@
 </head>
 <body>
     <header class="navbar">
-        <!-- Header content -->
         <a href="{{ url_for('update_account') }}" class="update-link">Modifier Compte</a>
         <a href="{{url_for('verificator')}}"class="verificator">Vérificateurs</a>
-        <a href="{{url_for('result_verificator')}}"class="verificator">Mes résultats</a>
-        <a href="/logout" class="logout-link">Déconnexion</a>
+        <a href="{{url_for('result_verificator')}}"class="result-verificator">Mes résultats</a>
+        <a href="/logout" class="logout-link">Déconnexion</a>  
     </header>
     <section class="user-section">
         <div class="container">

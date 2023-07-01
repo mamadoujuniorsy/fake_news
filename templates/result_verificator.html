@@ -59,7 +59,7 @@
                 <td>{{ information.result }}</td>
                 <td>{{information.status}}</td>
                 <td>
-                  <form method="post" action="">
+                  <form method="post" action="result_verificator/delete">
                     <input type="hidden" name="information_id" value="{{ information.id }}">
                     {% if information.status == 'En attente' %}
                         <input class="delete-btn" type="submit" value="Supprimer">

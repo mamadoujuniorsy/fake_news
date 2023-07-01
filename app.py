@@ -324,7 +324,6 @@ def submit():
         cur.close()
 
         return render_template('result.html', result=result, link=link)
-
     return redirect('/user')
 #Page du vérificateur de faits
 @app.route('/verificator')
@@ -384,15 +383,32 @@ def submit_verificator_result():
         flash('L\'information n\'a pas été trouvée.', 'error')
         return redirect('/verificator')
     
-@app.route('/result-verificator')
+@app.route('/result_verificator')
 @login_required
 def result_verificator():
-        # Récupérer les informations à vérifier depuis la base de données
-        cur = mysql.connection.cursor()
-        cur.execute("SELECT * FROM information WHERE id = %s", (information_id,))
-        informations = cur.fetchall()
-        cur.close()
-        return render_template('result-verificator.html', informations=informations)
+    cur = mysql.connection.cursor()
+    cur.execute("SELECT * FROM information WHERE user_id = %s", (current_user.id,))
+    informations = cur.fetchall()
+    cur.close()
 
+    if informations:
+        return render_template('result_verificator.html', informations=informations)
+    else:
+        flash('L\'information n\'a pas été trouvée.', 'error')
+        return redirect('/result_verificator')
+
+@app.route('/result_verificator/delete', methods=['POST'])
+@login_required
+def delete_information_result():
+    information_id = request.form['information_id']
+    
+    # Perform the delete operation in the database
+    cur = mysql.connection.cursor()
+    cur.execute("DELETE FROM information WHERE id = %s", (information_id,))
+    mysql.connection.commit()
+    cur.close()
+    flash('Information supprimée avec succès.', 'success')
+    return redirect('/user')
+    
 if __name__ == '__main__':
     app.run(debug=True)
