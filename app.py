@@ -395,7 +395,7 @@ def result_verificator():
         return render_template('result_verificator.html', informations=informations)
     else:
         flash('L\'information n\'a pas été trouvée.', 'error')
-        return redirect('/result_verificator')
+        return redirect('/user')
 
 @app.route('/result_verificator/delete', methods=['POST'])
 @login_required

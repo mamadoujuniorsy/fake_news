@@ -30,14 +30,13 @@ def preprocess_text(text):
     preprocessed_text = ' '.join(tokens)
 
     return preprocessed_text
-
+ 
     # Stemming
     stemmer = SnowballStemmer('french')
     tokens = [stemmer.stem(word) for word in tokens]
 
-
 # Charger les données d'entraînement depuis le fichier CSV
-data = pd.read_csv("datafake_train.csv", header=0, delimiter=";")
+data = pd.read_csv("datafake_train_updated.csv", header=0, delimiter=";")
 
 # Prétraitement du texte
 data['post'] = data['post'].apply(preprocess_text)
