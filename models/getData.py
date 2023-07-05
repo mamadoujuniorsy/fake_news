@@ -1,7 +1,6 @@
 import time
 import pandas as pd
 import feedparser
-from model import preprocess_text
 
 # Charger les données existantes depuis le fichier CSV
 data = pd.read_csv("datafake_train.csv", header=0, delimiter=";")

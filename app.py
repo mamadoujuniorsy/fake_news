@@ -4,6 +4,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from wtforms import Form, StringField, PasswordField, validators
 from flask_login import LoginManager, current_user, UserMixin, login_user, logout_user, login_required
 from models.model import predict_fake_news
+from models.getData import update_data_from_rss
 import re
 
 app = Flask(__name__, static_url_path='/static')

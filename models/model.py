@@ -9,6 +9,7 @@ import string
 import nltk
 from nltk.corpus import stopwords
 from nltk.stem import WordNetLemmatizer
+from models.getData import update_data_from_rss
 
 # Téléchargement des ressources nécessaires de NLTK
 nltk.download('stopwords')
@@ -35,6 +36,11 @@ def preprocess_text(text):
     stemmer = SnowballStemmer('french')
     tokens = [stemmer.stem(word) for word in tokens]
 
+
+csv_file = "datafake_train.csv"
+rss_url = "https://www.seneweb.com/feed"
+
+update_data_from_rss(csv_file, rss_url)
 # Charger les données d'entraînement depuis le fichier CSV
 data = pd.read_csv("datafake_train_updated.csv", header=0, delimiter=";")
 
