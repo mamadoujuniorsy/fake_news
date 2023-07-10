@@ -4,7 +4,6 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from wtforms import Form, StringField, PasswordField, validators
 from flask_login import LoginManager, current_user, UserMixin, login_user, logout_user, login_required
 from models.model import predict_fake_news
-from models.getData import update_data_from_rss
 import re
 
 app = Flask(__name__, static_url_path='/static')
@@ -199,7 +198,40 @@ def admin():
     else:
         flash('Accès refusé. Vous n\'êtes pas administrateur.', 'error')
         return redirect('/')
+# Page de définir un utilisateur comme vérificateur
+@app.route('/admin/set_verificator/<int:user_id>')
+@login_required
+def set_verificator(user_id):
+    if current_user.is_admin:
+        # Mettez à jour le statut de l'utilisateur dans la base de données en tant que vérificateur
+        cur = mysql.connection.cursor()
+        cur.execute("UPDATE users SET is_verificator = 1 WHERE id = %s", (user_id,))
+        mysql.connection.commit()
+        cur.close()
 
+        flash('Utilisateur défini comme vérificateur avec succès.', 'success')
+        return redirect('/admin')
+    else:
+        flash('Accès refusé. Vous n\'êtes pas administrateur.', 'error')
+        return redirect('/')
+
+
+# Page de retirer un utilisateur comme vérificateur
+@app.route('/admin/unset_verificator/<int:user_id>')
+@login_required
+def unset_verificator(user_id):
+    if current_user.is_admin:
+        # Mettez à jour le statut de l'utilisateur dans la base de données en tant que non vérificateur
+        cur = mysql.connection.cursor()
+        cur.execute("UPDATE users SET is_verificator = 0 WHERE id = %s", (user_id,))
+        mysql.connection.commit()
+        cur.close()
+
+        flash('Utilisateur retiré comme vérificateur avec succès.', 'success')
+        return redirect('/admin')
+    else:
+        flash('Accès refusé. Vous n\'êtes pas administrateur.', 'error')
+        return redirect('/')
 
 # Page de modification d'utilisateur
 @app.route('/admin/edit/<int:user_id>', methods=['GET', 'POST'])
