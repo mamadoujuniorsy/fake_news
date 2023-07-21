@@ -122,7 +122,7 @@ def update_data_from_rss(csv_file, rss_url):
 
 csv_file = "datafake_train.csv"
 rss_url = "https://www.seneweb.com/feed"
-#update_data_from_rss(csv_file, rss_url)
+update_data_from_rss(csv_file, rss_url)
 # Exemple d'utilisation
 #article = ""
 #result = predict_fake_news(article)
