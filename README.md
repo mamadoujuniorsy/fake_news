@@ -1,3 +1,5 @@
 # fake_news
 C'est une plateforme de Détection de Fake news qui utilise Flask.
 Notre palteforme utilise les flux RSS des média les plus surs pour mettre à jour les fichiers d'entrainement utilisé par notre modéle de détection de Fake News qui combine les algorithmes SVC et RandomForestClassifier pour assurer une meilleure précision.
+En plus de cela on a implémenté des vérificateurs de faits à l'intérieur du plateforme. Par exemple si un utiisateur a besoin de vérifications supplémentaires, il va envoyer une requéte et des vérificaturs de faits vont s'en charger.On peut méme définir un utilisateur du plateforme comme vérificateurs de faits. Y'a également plein d'autres fonctionnalités et la version 2 va apporter des corrections selon les demandes des utlisateurs car on va créer un espace ou les utilisateurs vont pouvoir donner leur avis sur l'appli et tout.
+Cette version nécessite beaucoup d'améliorations surtout niveau clarté du code car on doit créer un répertoire views avec user,login... pour éviter d'encombrer le fichier app.py et rendre l'application plus facilement maintenable mais pour l'instant c'estjuste un petit plateforme.

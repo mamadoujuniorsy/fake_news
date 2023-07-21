@@ -118,7 +118,7 @@ def update_data_from_rss(csv_file, rss_url):
         data.to_csv(csv_file, sep=";", index=False)
 
         # Pause de 5 minutes avant la prochaine exécution
-        time.sleep(300)  # 300 secondes = 5 minutes
+        time.sleep(300) 
 
 csv_file = "datafake_train.csv"
 rss_url = "https://www.seneweb.com/feed"
